@@ -24,15 +24,16 @@ class ChangeDetector
     @url = url
     @hash = Digest::MD5.new << contents
 
-    seed
-  end
-
-  def seed
-    @db.execute("insert or ignore into scrapes(url) values (?)", [@url])
+    # seed url into the db to make `changed?` queries easier (can issue an udpate, no need for an insert)
+    # the `or ignore` will allow this to silently fail if we hit the uniqueness contraint (i.e. it's already been seeded)
+    @db.execute("insert or ignore into scrapes (url) values (?)", [@url])
   end
 
   def changed?
+    # update only if null or if different from current hash
     @db.execute("update scrapes set hash=? where url=? and (hash is null or hash<>?)", [hash.to_s, url, hash.to_s])
+    
+    # return true if we updated the record (i.e. changed it hash, including from null to something)
     @db.changes == 1
   end
 end
@@ -54,6 +55,9 @@ class Scraper
   end
 
   def fetch
+    # all this nokogiri css business is to allow for a message specific to the in-stock items
+    # none of it's necessary if you just want to know whether or not a page has changed
+    # note, though, all this really only works for static html pages
     URI.open(@url) do |f|
       log "fetching page"
       html = Nokogiri::HTML(f.read)
