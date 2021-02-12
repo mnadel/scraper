@@ -25,3 +25,16 @@ ruby $(dirname $0)/scrape.rb
 I've also got a crontab entry that runs it every five minutes:
 
 `*/5 * * * * $HOME/scraper/scrape >> $HOME/scraper/scrape.log 2>&1`
+
+# Raspberry Pi
+
+Dependencies:
+
+```
+> sudo apt-get install ruby
+> sudo apt-get install ruby-dev
+> sudo apt-get install libsqlite3-dev
+> sudo gem install faraday
+> sudo gem install nokogiri
+> sudo gem install sqlite3
+```
