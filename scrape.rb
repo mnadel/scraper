@@ -80,7 +80,7 @@ scraper = Scraper.new
 if ChangeDetector.new(scraper.url, scraper.message).changed?
   log "posting change to slack"
 
-  Faraday.post(ENV["SLACK_HOOK"], {text: message}.to_json.to_s)
+  Faraday.post(ENV["SLACK_HOOK"], {text: scraper.message}.to_json.to_s)
 else
   log "no changes detected"
 end
