@@ -8,7 +8,7 @@ require "digest/md5"
 raise "missing SLACK_HOOK" if ENV["SLACK_HOOK"].nil?
 
 class ChangeDetector
-  DBFILE = "#{Dir.pwd}/scrape.db"
+  DBFILE = "#{File.dirname(__FILE__)}/scrape.db"
   attr_reader :url, :hash
 
   def initialize(url, contents)
@@ -76,10 +76,10 @@ class Scraper
 end
 
 scraper = Scraper.new
+cd = ChangeDetector.new(scraper.url, scraper.message)
 
-if ChangeDetector.new(scraper.url, scraper.message).changed?
+if cd.changed?
   log "posting change to slack"
-
   Faraday.post(ENV["SLACK_HOOK"], {text: scraper.message}.to_json.to_s)
 else
   log "no changes detected"
