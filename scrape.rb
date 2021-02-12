@@ -69,7 +69,7 @@ class Scraper
     end
   
     if @products.any? { |sku| sku.include? "FB-" }
-      "items in stock at #{url}:\n#{@products.sort.join("\n")}"
+      "items in stock at #{url}\n#{@products.sort.join("\n")}"
     else
       "no products of interest"
     end
