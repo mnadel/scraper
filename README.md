@@ -38,3 +38,5 @@ Dependencies:
 > sudo gem install nokogiri
 > sudo gem install sqlite3
 ```
+
+You can also set `DBPATH` to move where the sqlite3 db file is stored (e.g. if you want to offload it from your SD card).

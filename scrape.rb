@@ -8,7 +8,7 @@ require "digest/md5"
 raise "missing SLACK_HOOK" if ENV["SLACK_HOOK"].nil?
 
 class ChangeDetector
-  DBFILE = "#{File.dirname(__FILE__)}/scrape.db"
+  DBFILE = "#{ENV["DBPATH"] || File.dirname(__FILE__)}/scrape.db"
   attr_reader :url, :hash
 
   def initialize(url, contents)
