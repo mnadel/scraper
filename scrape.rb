@@ -1,4 +1,5 @@
 require "json"
+require "faraday"
 require "nokogiri"
 
 require "./scraper"
