@@ -2,7 +2,7 @@ require "sqlite3"
 require "digest/md5"
 
 class ChangeDetector
-  attr_reader :url, :hash, :slack_message
+  attr_reader :url, :hash
 
   def initialize(scraper, dbfile = "#{ENV["DBPATH"] || File.dirname(__FILE__)}/scrape.db")
     @db = SQLite3::Database.new(dbfile)
@@ -16,7 +16,6 @@ class ChangeDetector
 
     @url = scraper.url
     @hash = Digest::MD5.new << scraper.contents
-    @slack_message = scraper.slack_message_body
 
     # seed url into the db to make `changed?` queries easier (can issue an udpate, no need for an insert)
     # the `or ignore` will allow this to silently fail if we hit the uniqueness contraint (i.e. it's already been seeded)

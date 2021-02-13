@@ -43,12 +43,12 @@ class RepScraper < Scraper
   end
 end
 
-
-cd = ChangeDetector.new(RepScraper.new)
+scraper = RepScraper.new
+cd = ChangeDetector.new(scraper)
 
 if cd.changed?
   log "posting change to slack"
-  Faraday.post(ENV["SLACK_HOOK"], {text: cd.slack_message}.to_json.to_s)
+  Faraday.post(ENV["SLACK_HOOK"], {text: scraper.slack_message_body}.to_json.to_s)
 else
   log "no changes detected"
 end
