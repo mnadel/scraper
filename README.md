@@ -7,6 +7,11 @@ Great for getting notified of:
 1. Items becoming in-stock
 1. Items going on sale
 
+# Configruation environment variables
+
+1. `SLACK_HOOK` to specify the Slack webhook endpoint
+1. `DBPATH` (optional) to specify where to write the SQLite3 database file
+
 # MacOS
 
 I run this on MacOS + Homebrew Ruby. My `zshrc` file does `BREW_PREFIX=$(brew --prefix)` to source Homebrew. For whatever reason, this isn't working, so I need to manually set `BREW_PREFIX` in a bootstrap script that looks something like this:
@@ -28,15 +33,5 @@ I've also got a crontab entry that runs it every five minutes:
 
 # Raspberry Pi
 
-Dependencies:
+See `Makefile` for list of dependencies.
 
-```
-> sudo apt-get install ruby
-> sudo apt-get install ruby-dev
-> sudo apt-get install libsqlite3-dev
-> sudo gem install faraday
-> sudo gem install nokogiri
-> sudo gem install sqlite3
-```
-
-You can also set `DBPATH` to move where the sqlite3 db file is stored (e.g. if you want to offload it from your SD card).
