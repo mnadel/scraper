@@ -2,8 +2,8 @@ require "json"
 require "faraday"
 require "nokogiri"
 
-require "./scraper"
-require "./change_detector"
+require_relative "scraper"
+require_relative "change_detector"
 
 
 raise "missing SLACK_HOOK" if ENV["SLACK_HOOK"].nil?
