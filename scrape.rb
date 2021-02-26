@@ -14,6 +14,19 @@ def log(msg)
 end
 
 
+class RlScraper < Scraper
+  def initialize
+    super("https://www2.rlcarriers.com/freight/shipping/shipment-tracing?docType=PRO&source=web&pro=XXXYYYYZZZ")
+  end
+
+  def process_page(contents)
+    html = Nokogiri::HTML(contents)
+    t = html.css("#XXXYYYYZZZ-div > table:nth-child(3)")
+    t.xpath("//td").map(&:text).join(" ").gsub(/XXXYYYYZZZ.*MM\/DD\/YYYY/, "\nest deliv: ")
+  end
+end
+
+
 class RepScraper < Scraper
   def initialize
     super("https://www.repfitness.com/strength-equipment/strength-training/benches")
@@ -43,14 +56,20 @@ class RepScraper < Scraper
   end
 end
 
-scraper = RepScraper.new
-cd = ChangeDetector.new(scraper)
+scrapers = [
+  RlScraper.new,
+  RepScraper.new,
+]
 
-if cd.changed?
-  log "posting change to slack"
-  Faraday.post(ENV["SLACK_HOOK"], {text: scraper.slack_message_body}.to_json.to_s)
-else
-  log "no changes detected"
+scrapers.each do |scraper|
+  cd = ChangeDetector.new(scraper)
+
+  if cd.changed?
+    log "posting change to slack"
+    Faraday.post(ENV["SLACK_HOOK"], {text: "changes at #{scraper.url}\n#{scraper.slack_message_body}"}.to_json.to_s)
+  else
+    log "no changes detected"
+  end
 end
 
 log "goodbye"
