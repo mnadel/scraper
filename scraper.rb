@@ -15,15 +15,19 @@ class Scraper
   def message
     @contents ||= begin
       processed = process_page(Nokogiri::HTML(fetch))
-      puts "#{Time.now} * processed page"
+      log "processed page"
       processed
     end
   end
 
 private
 
+  def log(message)
+    puts "#{Time.now} * #{message}"
+  end
+
   def fetch
-    puts "#{Time.now} * fetching page"
+    log "fetching page"
 
     URI.open(url) do |f|
       f.read
