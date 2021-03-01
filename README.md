@@ -9,29 +9,27 @@ Great for getting notified of:
 
 # Configruation environment variables
 
+Create a `.env` that defines:
+
 1. `SLACK_HOOK` to specify the Slack webhook endpoint
 1. `DBPATH` (optional) to specify where to write the SQLite3 database file
 
-# MacOS
+# Homebrew
 
 I run this on MacOS + Homebrew Ruby. My `zshrc` file does `BREW_PREFIX=$(brew --prefix)` to source Homebrew. For whatever reason, this isn't working, so I need to manually set `BREW_PREFIX` in a bootstrap script that looks something like this:
 
 ```
-#!/usr/local/bin/zsh
+> cat .env
 
-export SLACK_HOOK=https://hooks.slack.com/services/ABC/DEF/TlTrTDfaFKPUdBmM
-
+export SLACK_HOOK=https://hooks.slack.com/services/ABC/DEF/GHIJKLMNOPQRST
 export BREW_PREFIX=/usr/local
 source $HOME/.zshrc
-
-ruby $(dirname $0)/scrape.rb
 ```
 
 I've also got a crontab entry that runs it every five minutes:
 
-`*/5 * * * * $HOME/scraper/scrape >> $HOME/scraper/scrape.log 2>&1`
+`*/5 * * * * $HOME/scraper/scrape`
 
 # Raspberry Pi
 
 See `Makefile` for list of dependencies.
-

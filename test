@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+
+require "open-uri"
+require "nokogiri"
+
+resp = URI.open(ARGV[0]) do |f|
+    f.read
+end
+
+h = Nokogiri::HTML(resp)
+puts h.css(ARGV[1])

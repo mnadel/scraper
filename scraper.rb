@@ -1,4 +1,5 @@
 require "open-uri"
+require "nokogiri"
 
 class Scraper
   attr_reader :url, :contents
@@ -7,34 +8,25 @@ class Scraper
     @url = url
   end
 
-  # this is what gets slacked
-  def slack_message_body
-    contents
-  end
-
-  # contents will determine if the site changed
-  # this will be a message containing the list of in-stock items
-  def contents
-    @contents ||= fetch
-  end
-
-  def fetch
-    log "fetching page"
-
-    resp = URI.open(url) do |f|
-      process_page(f.read)
-    end
-
-    log "processed page"
-
-    resp
-  end
-
-  def process_page(contents)
+  def process_page(html)
     raise "implement me"
   end
 
-  def log(msg)
-    puts "#{Time.now} * #{msg}"
+  def message
+    @contents ||= begin
+      processed = process_page(Nokogiri::HTML(fetch))
+      puts "#{Time.now} * processed page"
+      processed
+    end
+  end
+
+private
+
+  def fetch
+    puts "#{Time.now} * fetching page"
+
+    URI.open(url) do |f|
+      f.read
+    end
   end
 end
