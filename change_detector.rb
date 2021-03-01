@@ -15,7 +15,7 @@ class ChangeDetector
     SQL
 
     @url = scraper.url
-    @hash = Digest::MD5.new << (scraper.contents || "error processing page @ #{Time.now}")
+    @hash = Digest::MD5.new << (scraper.message || "error processing page @ #{Time.now}")
 
     # seed url into the db to make `changed?` queries easier (can issue an udpate, no need for an insert)
     # the `or ignore` will allow this to silently fail if we hit the uniqueness contraint (i.e. it's already been seeded)
