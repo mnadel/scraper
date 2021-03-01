@@ -1,11 +1,15 @@
 #!/usr/bin/env ruby
 
-
 require "open-uri"
 require "nokogiri"
 
+if ARGV.length != 2
+  puts "usage: #{File.basename(__FILE__)} <url> <css selector>"
+  exit 1
+end
+
 resp = URI.open(ARGV[0]) do |f|
-    f.read
+  f.read
 end
 
 h = Nokogiri::HTML(resp)

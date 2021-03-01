@@ -9,19 +9,22 @@ Great for getting notified of:
 
 # Configruation environment variables
 
-Create a `.env` that defines:
+The `scrape` script is intended to be invoked via `cron`. If so, you'll also need a `.env` file that exports:
 
 1. `SLACK_HOOK` to specify the Slack webhook endpoint
 1. `DBPATH` (optional) to specify where to write the SQLite3 database file
 
+# Raspberry Pi
+
+See `Makefile` for list of dependencies.
+
+The `scrape` script is intended to be invoked via `cron`.
+
 # Homebrew
 
-I run this on MacOS + Homebrew Ruby. My `zshrc` file does `BREW_PREFIX=$(brew --prefix)` to source Homebrew. For whatever reason, this isn't working, so I need to manually set `BREW_PREFIX` in a bootstrap script that looks something like this:
+I run this on MacOS + Homebrew Ruby. My `zshrc` file does `BREW_PREFIX=$(brew --prefix)` to source Homebrew. For whatever reason, this isn't working, so I need to manually set `BREW_PREFIX` in a bootstrap script does this:
 
 ```
-> cat .env
-
-export SLACK_HOOK=https://hooks.slack.com/services/ABC/DEF/GHIJKLMNOPQRST
 export BREW_PREFIX=/usr/local
 source $HOME/.zshrc
 ```
@@ -29,7 +32,3 @@ source $HOME/.zshrc
 I've also got a crontab entry that runs it every five minutes:
 
 `*/5 * * * * $HOME/scraper/scrape`
-
-# Raspberry Pi
-
-See `Makefile` for list of dependencies.
