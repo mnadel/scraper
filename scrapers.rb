@@ -38,7 +38,7 @@ class PtCoffeeScraper < Scraper
   end
 
   def process_page(html)
-    status = html.css("#AddToCartText-product-template").inner_html
+    status = html.css("#AddToCartText-product-template").inner_html&.strip
     "Tigesit Waqa Natural is #{status}"
   end
 end
