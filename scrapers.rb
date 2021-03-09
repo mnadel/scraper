@@ -3,6 +3,7 @@ class Scrapers
     [
       #RepBenchScraper.new,
       RepCannonballScraper.new,
+      PtCoffeeScraper.new,
     ]
   end
 end
