@@ -31,6 +31,17 @@ class RepBenchScraper < Scraper
   end
 end
 
+class PtCoffeeScraper < Scraper
+  def initialize
+    super("https://www.ptscoffee.com/collections/single-origin-coffee/products/yirgacheffe-tigesit-waqa-natural")
+  end
+
+  def process_page(html)
+    status = html.css("#AddToCartText-product-template").inner_html
+    "Tigesit Waqa Natural is #{status}"
+  end
+end
+
 class RepCannonballScraper < Scraper
   def initialize
     super("https://www.repfitness.com/3-cannonball-grips-2566")
