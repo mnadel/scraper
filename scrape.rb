@@ -5,12 +5,19 @@ require_relative "scraper"
 require_relative "scrapers"
 require_relative "change_detector"
 
-raise "missing SLACK_HOOK" if ENV["SLACK_HOOK"].nil?
-no_slack = ARGV.include? "--no-slack"
-
 def log(msg)
   puts "#{Time.now} * #{msg}"
 end
+
+if ARGV.include? "--list"
+  Scrapers.all.each do |s|
+    puts "#{s.class.name} - #{s.url}"
+  end
+  exit 0
+end
+
+raise "missing SLACK_HOOK" if ENV["SLACK_HOOK"].nil?
+no_slack = ARGV.include? "--no-slack"
 
 Scrapers.all.each do |scraper|
   cd = ChangeDetector.new(scraper)

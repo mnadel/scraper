@@ -12,6 +12,10 @@ class Scraper
     raise "implement me"
   end
 
+  def active?
+    true
+  end
+
   def message
     @contents ||= begin
       processed = process_page(Nokogiri::HTML(fetch))
