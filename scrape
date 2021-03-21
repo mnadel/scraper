@@ -7,7 +7,7 @@ if [ ! -z $NOSLACK ]; then
 fi
 
 if [ -z $DEBUG ]; then
-    ruby $(dirname $0)/scrape.rb > ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
+    ruby $(dirname $0)/scrape.rb
 else
     ruby --debug $(dirname $0)/scrape.rb $ARGS
 fi
