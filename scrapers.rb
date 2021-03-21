@@ -48,6 +48,17 @@ module Scrapers
     end
   end
 
+  class ArmillaScraper < Scraper
+    def initialize
+      super("https://armillawatchbands.com/collections/aero-ballistic/products/aero-ballistic-baby-blue-g10-nato?variant=17646199111738")
+    end
+
+    def process_page(html)
+      status = html.css(".btn--to-secondary > span:nth-child(1)").inner_html&.strip
+      "Strap is #{status}"
+    end
+  end
+
   class RepCannonballScraper < Scraper
     def initialize
       super("https://www.repfitness.com/3-cannonball-grips-2566")
