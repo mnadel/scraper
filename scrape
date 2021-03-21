@@ -13,7 +13,7 @@ fi
 
 # if GIT is set then pull latest before running
 if [ ! -z $GIT ]; then
-    git pull >> ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
+    git -C $(dirname $0) pull >> ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
 fi
 
 # if DEBUG is set then do not redirect to logfile and pass args
