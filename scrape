@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 
+# source local config, see README
 [ -f $(dirname $0)/.env ] && source $(dirname $0)/.env
 
+# if NOSLACK is set then pass along the flag
 if [ ! -z $NOSLACK ]; then
     ARGS="--no-slack"
 fi
 
-if [ -z $DEBUG ]; then
-    ruby $(dirname $0)/scrape.rb
-else
+# delete the previous logfile
+[ -f ${LOGPATH:-/var/log/scrape}/scrape.log ] && rm ${LOGPATH:-/var/log/scrape}/scrape.log
+
+# if GIT is set then pull latest before running
+if [ ! -z $GIT ]; then
+    git pull >> ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
+fi
+
+# if DEBUG is set then do not redirect to logfile and pass args
+if [ ! -z $DEBUG ]; then
     ruby --debug $(dirname $0)/scrape.rb $ARGS
+else
+    # otherwise run in "unattended" mode
+    ruby $(dirname $0)/scrape.rb $ARGS >> ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
 fi

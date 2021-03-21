@@ -11,10 +11,4 @@ debug:
 test:
 	DEBUG=true NOSLACK=true ./scrape 2>/dev/null
 
-scrape:
-	[ ! -f $(cwd)/.env ] && touch $(cwd)/.env
-	source $(cwd)/.env && git pull > ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
-	source $(cwd)/.env && $(cwd)/scrape >> ${LOGPATH:-/var/log/scrape}/scrape.log 2>&1
-
-.PHONY: test debug scrape
-
+.PHONY: test debug 
