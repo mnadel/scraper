@@ -18,7 +18,7 @@ The `scrape` script is intended to be invoked via `cron`. If so, you'll also nee
 
 See `Makefile` for list of dependencies.
 
-The `scrape` script is intended to be invoked via `cron`.
+The `scrape` Makefile target is intended to be invoked via `cron`.
 
 # Homebrew
 
