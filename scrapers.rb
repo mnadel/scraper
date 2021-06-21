@@ -63,6 +63,17 @@ module Scrapers
     end
   end
 
+  class ViknChalk < Scraper
+    def initialize
+      super("https://viknperformance.com/collections/liquid-chalk-vikn-performance/products/liquid-chalk")
+    end
+
+    def process_page(html)
+      button = html.css("#AddToCart-1515994021941 span")
+      "Liquid chalk is #{button&.inner_html&.strip}"
+    end
+  end
+
   class RepCannonballScraper < Scraper
     def initialize
       super("https://www.repfitness.com/3-cannonball-grips-2566")
